@@ -13,4 +13,10 @@
 		<PackageReference Include="Microsoft.Graph" Version="5.52.0" />
 	</ItemGroup>
 	
+	<ItemGroup>
+	  <None Update="calendar-finder-appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
 </Project>
