@@ -13,41 +13,43 @@ internal class Program
     static async Task Main(string[] args)
     {
         await Parser.Default.ParseArguments<Options>(args)
-            .WithParsedAsync(async options =>
-            {
-                await Console.Out.WriteLineAsync($"Start App.");
+            .WithParsedAsync(RunHost);
+    }
 
-                try
-                {
-                    var host = Host.CreateDefaultBuilder(args)
-                        .ConfigureAppConfiguration(builder =>
-                        {
-                            builder.AddJsonFile(options.AppSettingsPath);
-                        })
-                        .ConfigureServices((context, services) =>
-                        {
-                            // Services 
-                            services.AddSingleton(options);
-                            services.AddSingleton<CalendarFinderService>();
+    private static async Task RunHost(Options options)
+    {
+        await Console.Out.WriteLineAsync($"Start App.");
 
-                            // Workers
-                            services.AddHostedService<CalendarFinderWorker>();
-                        })
-                        .AddGraphClientsFromJson()
-                        .UseConsoleLifetime()
-                        .ConfigureLogging(e => e.SetMinimumLevel(LogLevel.None))
-                        .Build();
+        try
+        {
+            var host = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration(builder =>
+                {
+                    builder.AddJsonFile(options.AppSettingsPath);
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    // Services 
+                    services.AddSingleton(options);
+                    services.AddSingleton<CalendarFinderService>();
 
-                    await host.RunAsync();
-                }
-                catch (Exception ex)
-                {
-                    await Console.Out.WriteLineAsync($"Failed with error: {ex.Message}");
-                }
-                finally
-                {
-                    await Console.Out.WriteLineAsync($"Terminate App.");
-                }
-            });
+                    // Workers
+                    services.AddHostedService<CalendarFinderWorker>();
+                })
+                .AddGraphClientsFromJson()
+                .UseConsoleLifetime()
+                .ConfigureLogging(e => e.SetMinimumLevel(LogLevel.None))
+                .Build();
+
+            await host.RunAsync();
+        }
+        catch (Exception ex)
+        {
+            await Console.Out.WriteLineAsync($"Failed with error: {ex.Message}");
+        }
+        finally
+        {
+            await Console.Out.WriteLineAsync($"Terminate App.");
+        }
     }
 }

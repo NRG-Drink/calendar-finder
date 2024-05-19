@@ -13,8 +13,6 @@ public class CalendarFinderWorker(
     )
     : BackgroundService
 {
-
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
@@ -40,16 +38,28 @@ public class CalendarFinderWorker(
         }
     }
 
-    private static object GetPrintObject(User user, List<Calendar> calendars)
-        => new
-        {
-            User = new { user.Id, user.Mail },
-            Calendars = calendars.Select(e => new { e.Id, e.Name, Owner = e.Owner?.Address })
-        };
-
     private static Task WriteObjectAsync(string text, object? obj)
     {
         var json = JsonSerializer.Serialize(obj, options: new() { WriteIndented = true });
         return Console.Out.WriteLineAsync($"{text}:\n{json}");
     }
+
+    private static object GetPrintObject(User user, List<Calendar> calendars)
+        => new
+        {
+            User = new
+            {
+                user.DisplayName,
+                user.Id,
+                user.Mail,
+                user.UserPrincipalName
+            },
+            Calendars = calendars.Select(e => new 
+            { 
+                e.Id, 
+                e.Name, 
+                Owner = e.Owner?.Address, 
+                e.IsDefaultCalendar 
+            })
+        };
 }
