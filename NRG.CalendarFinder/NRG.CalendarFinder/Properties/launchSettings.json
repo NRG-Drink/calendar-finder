@@ -2,7 +2,7 @@
   "profiles": {
     "NRG.CalendarFinder": {
       "commandName": "Project",
-      "commandLineArgs": "-u hello"
+      "commandLineArgs": "-u \"  \""
     }
   }
 }

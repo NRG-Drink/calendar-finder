@@ -1,6 +1,10 @@
 ﻿using CommandLine;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NRG.CalendarFinder.Exteinsions;
 using NRG.CalendarFinder.Models;
-using System.Text.Json;
 
 namespace NRG.CalendarFinder;
 
@@ -11,14 +15,30 @@ internal class Program
         await Parser.Default.ParseArguments<Options>(args)
             .WithParsedAsync(async options =>
             {
-                await WriteObject("Start App with parameters", options);
+                await Console.Out.WriteLineAsync($"Start App.");
+
                 try
                 {
-                    var parser = new AppSettingsParser();
-                    var credentials = await parser.ParseAppSettingsOrThrow(options?.AppSettingsPath);
+                    var host = Host.CreateDefaultBuilder(args)
+                        .ConfigureAppConfiguration(builder =>
+                        {
+                            builder.AddJsonFile(options.AppSettingsPath);
+                        })
+                        .ConfigureServices((context, services) =>
+                        {
+                            // Services 
+                            services.AddSingleton(options);
+                            services.AddSingleton<CalendarFinderService>();
 
-                    var calendarFinder = new CalendarFinder();
-                    await calendarFinder.FindCalendars(options);
+                            // Workers
+                            services.AddHostedService<CalendarFinderWorker>();
+                        })
+                        .AddGraphClientsFromJson()
+                        .UseConsoleLifetime()
+                        .ConfigureLogging(e => e.SetMinimumLevel(LogLevel.None))
+                        .Build();
+
+                    await host.RunAsync();
                 }
                 catch (Exception ex)
                 {
@@ -29,11 +49,5 @@ internal class Program
                     await Console.Out.WriteLineAsync($"Terminate App.");
                 }
             });
-    }
-
-    private static Task WriteObject(string text, object? obj)
-    {
-        var json = JsonSerializer.Serialize(obj, options: new() { WriteIndented = true });
-        return Console.Out.WriteLineAsync($"{text}:\n{json}");
     }
 }

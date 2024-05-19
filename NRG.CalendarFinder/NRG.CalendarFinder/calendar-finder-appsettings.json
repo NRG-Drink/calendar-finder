@@ -1,5 +1,10 @@
 {
-	"TenantId": "0a073d92-e36c-4515-bc4f-1dc931fa5a57",
-	"ClientId": "de5d83de-9412-49a8-8f79-c0970533f325",
-	"Thumbprint": "0B4CDB6CCFE20C49C35F1F46ED159F6B01705649"
+	"MsGraphClients": [
+		{
+			"TenantId": "0a073d92-e36c-4515-bc4f-1dc931fa5a57",
+			"ClientId": "de5d83de-9412-49a8-8f79-c0970533f325",
+			"Thumbprint": "0B4CDB6CCFE20C49C35F1F46ED159F6B01705649",
+			"Scopes": null
+		}
+	]
 }
