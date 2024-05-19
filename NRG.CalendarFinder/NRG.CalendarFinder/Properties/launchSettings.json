@@ -2,7 +2,7 @@
   "profiles": {
     "NRG.CalendarFinder": {
       "commandName": "Project",
-      "commandLineArgs": "-u agenda.seschenbach@esgo.ch"
+      "commandLineArgs": "-u mail@provider.com"
     }
   }
 }

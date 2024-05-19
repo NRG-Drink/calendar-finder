@@ -1,0 +1,10 @@
+{
+	"MsGraphClients": [
+		{
+			"TenantId": "my_tenant_id",
+			"ClientId": "my_client_id",
+			"Thumbprint": "my_thumbprint",
+			"Scopes": null
+		}
+	]
+}
