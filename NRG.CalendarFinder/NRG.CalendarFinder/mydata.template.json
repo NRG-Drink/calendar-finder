@@ -6,5 +6,9 @@
 			"Thumbprint": "my_thumbprint",
 			"Scopes": null
 		}
+	],
+	"UserIdentifier": [
+		"myUserPrincipalName",
+		"myUserId"
 	]
 }

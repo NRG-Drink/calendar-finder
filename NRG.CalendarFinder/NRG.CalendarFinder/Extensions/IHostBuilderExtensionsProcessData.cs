@@ -11,7 +11,7 @@ public static class IHostBuilderExtensionsProcessData
         builder.ConfigureServices((context, services) =>
         {
             var inputData = context.Configuration
-                .GetSection("Data")
+                .GetSection(nameof(InputData.UserIdentifier))
                 .GetChildren()
                 .Select(e => e.Value)
                 .OfType<string>()

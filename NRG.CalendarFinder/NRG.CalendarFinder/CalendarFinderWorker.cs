@@ -40,7 +40,7 @@ public class CalendarFinderWorker(
             finally
             {
                 processed.Add(output);
-                await Console.Out.WriteLineAsync($"Terminate Process: {input.UserIdentifier}");
+                await Console.Out.WriteLineAsync($"Terminate search for: {input.UserIdentifier}");
             }
         }
 

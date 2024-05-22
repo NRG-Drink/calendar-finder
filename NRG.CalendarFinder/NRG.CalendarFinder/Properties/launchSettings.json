@@ -2,7 +2,7 @@
   "profiles": {
     "NRG.CalendarFinder": {
       "commandName": "Project",
-      "commandLineArgs": "-e false -f mydata.json"
+      "commandLineArgs": "-f mydata.json"
     }
   }
 }
