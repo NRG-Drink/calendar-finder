@@ -4,8 +4,8 @@ namespace NRG.CalendarFinder.Models;
 
 public record Options
 {
-    [Option('u', "user", Required = true, HelpText = "Can be a Guid or the user-principal-name (mail-address)")]
-    public required string UserIdentifier { get; set; }
-    [Option('a', "appsettings", Required = false, HelpText = "Path and filename of appsettings.json")]
-    public string AppSettingsPath { get; set; } = "calendar-finder-appsettings.json";
+    [Option('f', "file", Required = true, HelpText = "Name or path to the file. (e.g. mydata.json)")]
+    public required string FilePath { get; init; }
+    [Option('e', "open-editor", Required = true, HelpText = "Open the editor after finish.")]
+    public bool? OpenEditor { get; init; } = false;
 }

@@ -15,12 +15,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Update="calendar-finder-appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="calendar-finder-appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	  <None Update="calendar-finder-appsettings.template.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

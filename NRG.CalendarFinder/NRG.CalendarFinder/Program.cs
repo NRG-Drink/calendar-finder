@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NRG.CalendarFinder.Exteinsions;
+using NRG.CalendarFinder.Extensions;
 using NRG.CalendarFinder.Models;
 
 namespace NRG.CalendarFinder;
@@ -25,17 +26,17 @@ internal class Program
             var host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration(builder =>
                 {
-                    builder.AddJsonFile(options.AppSettingsPath);
+                    builder.AddJsonFile(options.FilePath);
                 })
                 .ConfigureServices((context, services) =>
                 {
                     // Services 
-                    services.AddSingleton(options);
                     services.AddSingleton<CalendarFinderService>();
 
                     // Workers
                     services.AddHostedService<CalendarFinderWorker>();
                 })
+                .AddProcessDataFromJson(options)
                 .AddGraphClientsFromJson()
                 .UseConsoleLifetime()
                 .ConfigureLogging(e => e.SetMinimumLevel(LogLevel.None))
