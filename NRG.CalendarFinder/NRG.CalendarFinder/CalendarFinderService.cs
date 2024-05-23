@@ -34,12 +34,18 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
         }
         catch (ODataError _)
         {
-            var nickname = GetMailNickname(userIdentifier);
-
-            var mailUser = await GetUserByMail(nickname);
+            var mailUser = await GetUserByMail(userIdentifier);
             if (mailUser is not null)
             {
                 return mailUser;
+            }
+
+            var nickname = GetMailNickname(userIdentifier);
+
+            var mailNicknameUser = await GetUserByMail(nickname);
+            if (mailNicknameUser is not null)
+            {
+                return mailNicknameUser;
             }
 
             var principleUser = await GetUserByPrincipleName(nickname);
