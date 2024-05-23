@@ -1,5 +1,6 @@
 ﻿using Microsoft.Graph;
 using Microsoft.Graph.Models;
+using Microsoft.Graph.Models.ODataErrors;
 using NRG.CalendarFinder.MsGraphFactories;
 
 namespace NRG.CalendarFinder;
@@ -15,7 +16,7 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
             throw new ArgumentException(userIdentifier, nameof(userIdentifier));
         }
 
-        var user = await _graph.Users[userIdentifier].GetAsync();
+        var user = await TryFindUser(userIdentifier);
 
         if (user is null || user.Id is null)
         {
@@ -24,6 +25,58 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 
         return user;
     }
+
+    private async Task<User?> TryFindUser(string userIdentifier)
+    {
+        try
+        {
+            return await GetUserByIdentifier(userIdentifier);
+        }
+        catch (ODataError _)
+        {
+            var nickname = GetMailNickname(userIdentifier);
+
+            var mailUser = await GetUserByMail(nickname);
+            if (mailUser is not null)
+            {
+                return mailUser;
+            }
+
+            var principleUser = await GetUserByPrincipleName(nickname);
+
+            return principleUser;
+        }
+    }
+
+    private static string GetMailNickname(string userIdentifier)
+        => userIdentifier
+            .Split("@")
+            .FirstOrDefault() 
+            ?? userIdentifier;
+
+    private async Task<User?> GetUserByPrincipleName(string nickname)
+    {
+        var users = await _graph.Users.GetAsync(e =>
+        {
+            e.QueryParameters.Filter = $"startsWith(userPrincipleName,'{nickname}')";
+        });
+
+        return users?.Value?.FirstOrDefault();
+    }
+
+    private async Task<User?> GetUserByMail(string nickname)
+    {
+        var users = await _graph.Users.GetAsync(e =>
+        {
+            e.QueryParameters.Filter = $"startsWith(mail,'{nickname}')";
+        });
+
+        return users?.Value?.FirstOrDefault();
+    }
+        
+
+    private Task<User?> GetUserByIdentifier(string userIdentifier)
+        => _graph.Users[userIdentifier].GetAsync();
 
     public async Task<List<Calendar>> FindCalendarsAsyncOrThrow(User user)
     {
