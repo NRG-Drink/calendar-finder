@@ -6,27 +6,27 @@ namespace NRG.CalendarFinder.Extensions;
 
 public static class IHostBuilderExtensionsProcessData
 {
-    public static IHostBuilder AddProcessDataFromJson(this IHostBuilder builder, Options options)
-    {
-        builder.ConfigureServices((context, services) =>
-        {
-            var inputData = context.Configuration
-                .GetSection(nameof(InputData.UserIdentifier))
-                .GetChildren()
-                .Select(e => e.Value)
-                .OfType<string>()
-                .Select(e => new InputData() { UserIdentifier = e })
-                .ToArray();
+	public static IHostBuilder AddProcessDataFromJson(this IHostBuilder builder, Options options)
+	{
+		builder.ConfigureServices((context, services) =>
+		{
+			var inputData = context.Configuration
+				.GetSection(nameof(InputData.UserIdentifier))
+				.GetChildren()
+				.Select(e => e.Value)
+				.OfType<string>()
+				.Select(e => new InputData() { UserIdentifier = e })
+				.ToArray();
 
-            var data = new ProcessData()
-            {
-                Options = options,
-                Inputs = inputData
-            };
+			var data = new ProcessData()
+			{
+				Options = options,
+				Inputs = inputData
+			};
 
-            services.AddSingleton(data);
-        });
+			services.AddSingleton(data);
+		});
 
-        return builder;
-    }
+		return builder;
+	}
 }

@@ -4,5 +4,5 @@ namespace NRG.CalendarFinder.CertificateLoaders;
 
 public interface ICertificateLoader
 {
-    public X509Certificate2 GetCertificate(string thumbprint);
+	public X509Certificate2 GetCertificate(string thumbprint);
 }

@@ -5,29 +5,26 @@ using NRG.CalendarFinder.MsGraphFactories;
 using NRG.CalendarFinder.MsGraphFactories.ConfigReaders;
 using System.Security.Cryptography.X509Certificates;
 
-namespace NRG.CalendarFinder.Exteinsions;
+namespace NRG.CalendarFinder.Extensions;
 
 public static class IHostBuilderExtensionsMsGraphClientFactory
 {
-    public static IHostBuilder AddGraphClientsFromJson(this IHostBuilder builder)
-    {
-        builder.ConfigureServices((context, services) =>
-        {
-            var reader = new MsGraphHostConfigurationJsonReader(context.Configuration);
-            var credentials = reader.Read();
+	public static IHostBuilder AddGraphClientsFromJson(this IHostBuilder builder)
+	{
+		builder.ConfigureServices((context, services) =>
+		{
+			var reader = new MsGraphHostConfigurationJsonReader(context.Configuration);
+			var credentials = reader.Read();
 
-            var factory = new MsGraphClientFactory(GetCertificateLoader());
-            credentials.ToList().ForEach(factory.AddCredential);
+			var factory = new MsGraphClientFactory(GetCertificateLoader());
+			credentials.ToList().ForEach(factory.AddCredential);
 
-            services.AddSingleton<IMsGraphClientFactory>(factory);
-        });
+			services.AddSingleton<IMsGraphClientFactory>(factory);
+		});
 
-        return builder;
-    }
+		return builder;
+	}
 
-    private static ICertificateLoader GetCertificateLoader()
-        => new WindowsCertificateLoader(
-                StoreName.My,
-                StoreLocation.CurrentUser
-            );
+	private static WindowsCertificateLoader GetCertificateLoader()
+		=> new(StoreName.My, StoreLocation.CurrentUser);
 }

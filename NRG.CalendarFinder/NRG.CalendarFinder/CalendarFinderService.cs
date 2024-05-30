@@ -96,7 +96,7 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 			.Calendars
 			.GetAsync();
 
-		return response?.Value 
+		return response?.Value
 			?? throw new Exception("No calendars could be found.");
 	}
 }
