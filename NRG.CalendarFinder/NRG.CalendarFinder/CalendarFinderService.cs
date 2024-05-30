@@ -7,92 +7,96 @@ namespace NRG.CalendarFinder;
 
 public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 {
-    private readonly GraphServiceClient _graph = graphFactory.GetClient("GraphClient");
+	private readonly GraphServiceClient _graph = graphFactory.GetClient("GraphClient");
 
-    public async Task<User> FindUserAsyncOrThrow(string userIdentifier)
-    {
-        if (string.IsNullOrWhiteSpace(userIdentifier))
-        {
-            throw new ArgumentException(userIdentifier, nameof(userIdentifier));
-        }
+	public async Task<User> FindUserOrThrowAsync(string userIdentifier)
+	{
+		try
+		{
+			if (string.IsNullOrWhiteSpace(userIdentifier))
+			{
+				throw new ArgumentException($"User identifier is null or whitespace.");
+			}
 
-        var user = await TryFindUser(userIdentifier);
+			return await TryFindUserOrThrowAsync(userIdentifier);
+		}
+		catch (Exception ex)
+		{
+			throw new Exception($"Problem finding user ({userIdentifier})", ex);
+		}
+	}
 
-        if (user is null || user.Id is null)
-        {
-            throw new ArgumentException($"Found user is not valid for identifier: {userIdentifier}");
-        }
+	public async Task<List<Calendar>> FindCalendarsOrThrowAsync(User user)
+	{
+		try
+		{
+			var isUserValid = user is not null && (user.Id is not null || user.UserPrincipalName is not null);
+			if (!isUserValid)
+			{
+				throw new ArgumentException($"User or User.Id or User.PrincipalName is null.");
+			}
 
-        return user;
-    }
+			return await TryFindCalendarsOrThrowAsync(user!);
+		}
+		catch (Exception ex)
+		{
+			throw new Exception(
+				$"Problem finding calendars for user ({user.UserPrincipalName})", ex);
+		}
+	}
 
-    private async Task<User?> TryFindUser(string userIdentifier)
-    {
-        try
-        {
-            return await GetUserByIdentifier(userIdentifier);
-        }
-        catch (ODataError _)
-        {
-            var mailUser = await GetUserByMail(userIdentifier);
-            if (mailUser is not null)
-            {
-                return mailUser;
-            }
+	private async Task<User> TryFindUserOrThrowAsync(string userIdentifier)
+	{
+		var user = await GetUserByIdentifier(userIdentifier);
+		user ??= await UserStartsWith("mail", userIdentifier);
 
-            var nickname = GetMailNickname(userIdentifier);
+		if (user is null)
+		{
+			var nickname = GetMailNickname(userIdentifier);
+			user ??= await UserStartsWith("mail", nickname);
+			user ??= await UserStartsWith("userPrincipalName", nickname);
+		}
 
-            var mailNicknameUser = await GetUserByMail(nickname);
-            if (mailNicknameUser is not null)
-            {
-                return mailNicknameUser;
-            }
+		return user ?? throw new Exception(
+			"No user could be found. Please check your spelling.");
+	}
 
-            var principleUser = await GetUserByPrincipleName(nickname);
+	private static string GetMailNickname(string userIdentifier)
+		=> userIdentifier
+			.Split("@")
+			.FirstOrDefault()
+			?? userIdentifier;
 
-            return principleUser;
-        }
-    }
+	private async Task<User?> GetUserByIdentifier(string userIdentifier)
+	{
+		try
+		{
+			return await _graph.Users[userIdentifier].GetAsync();
+		}
+		catch (ODataError)
+		{
+			return null;
+		}
+	}
 
-    private static string GetMailNickname(string userIdentifier)
-        => userIdentifier
-            .Split("@")
-            .FirstOrDefault() 
-            ?? userIdentifier;
+	private async Task<User?> UserStartsWith(string property, string value)
+	{
+		var users = await _graph.Users.GetAsync(e =>
+		{
+			e.QueryParameters.Filter = $"startsWith({property},'{value}')";
+		});
 
-    private async Task<User?> GetUserByPrincipleName(string nickname)
-    {
-        var users = await _graph.Users.GetAsync(e =>
-        {
-            e.QueryParameters.Filter = $"startsWith(userPrincipleName,'{nickname}')";
-        });
+		return users?.Value?.FirstOrDefault();
+	}
 
-        return users?.Value?.FirstOrDefault();
-    }
+	private async Task<List<Calendar>> TryFindCalendarsOrThrowAsync(User user)
+	{
+		var response = await _graph
+			.Users[user.Id ?? user.UserPrincipalName]
+			.Calendars
+			.GetAsync();
 
-    private async Task<User?> GetUserByMail(string nickname)
-    {
-        var users = await _graph.Users.GetAsync(e =>
-        {
-            e.QueryParameters.Filter = $"startsWith(mail,'{nickname}')";
-        });
-
-        return users?.Value?.FirstOrDefault();
-    }
-        
-
-    private Task<User?> GetUserByIdentifier(string userIdentifier)
-        => _graph.Users[userIdentifier].GetAsync();
-
-    public async Task<List<Calendar>> FindCalendarsAsyncOrThrow(User user)
-    {
-        var calendarResponse = await _graph.Users[user.Id ?? user.Mail].Calendars.GetAsync();
-
-        if (calendarResponse?.Value is null)
-        {
-            throw new ArgumentException("Found calendars ar not valid.");
-        }
-
-        return calendarResponse.Value;
-    }
+		return response?.Value 
+			?? throw new Exception("No calendars could be found.");
+	}
 }
