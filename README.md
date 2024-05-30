@@ -1,6 +1,12 @@
 # calendar-finder
 The `CalendarFinder` is an app to find all calendars of a user and some user-data in an easy way without making any `http` requests in ms-graph.
 
+## Installing
+Install the tool [globally](https://learn.microsoft.com/en-gb/dotnet/core/tools/global-tools-how-to-use) or [locally](https://learn.microsoft.com/en-gb/dotnet/core/tools/local-tools-how-to-use) to use it. The app is shipped as a NuGet-Tool beginning with v0.3.0
+```cmd
+dotnet tool install --global NRG.CalendarFinder
+```
+
 ## Usage
 1. Create a file (like mydata.json) put the `Azure Ad App` Registration and your user-identifiers as shown in the example.
 2. Start the app with the input file (step 1) as parameter.
@@ -27,7 +33,7 @@ The `CalendarFinder` is an app to find all calendars of a user and some user-dat
 ```
 #### Start Process (CMD)
 ```cmd
-> NRG.CalendarFinder.exe -f mydata.json
+calfi -a mydata.json
 ```
 #### Result Data As Json
 ```json

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34902.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRG.CalendarFinder", "NRG.CalendarFinder\NRG.CalendarFinder.csproj", "{569EF686-DA30-4EF6-AC88-465C3726DA01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NRG.CalendarFinder", "NRG.CalendarFinder\NRG.CalendarFinder.csproj", "{569EF686-DA30-4EF6-AC88-465C3726DA01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRG.CalendarFinder.Tests", "NRG.CalendarFinder.Tests\NRG.CalendarFinder.Tests.csproj", "{35F5207A-C214-4C49-836C-C0F3D748CFDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NRG.CalendarFinder.Tests", "NRG.CalendarFinder.Tests\NRG.CalendarFinder.Tests.csproj", "{35F5207A-C214-4C49-836C-C0F3D748CFDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

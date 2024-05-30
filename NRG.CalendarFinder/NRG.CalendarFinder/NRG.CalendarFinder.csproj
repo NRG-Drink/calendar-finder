@@ -5,13 +5,36 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Title>Calendar Finder</Title>
+    <Version>0.3.0</Version>
+    <Authors>Beat Zimmermann</Authors>
+    <Description>Find all calendars of a user via ms-graph.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/NRG-Drink/calendar-finder</RepositoryUrl>
+    <PackageTags>calendar; outlook; ms-graph;</PackageTags>
+    <PackAsTool>True</PackAsTool>
+    <ToolCommandName>calfi</ToolCommandName>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.11.3" />
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Graph" Version="5.52.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="mydata.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 	
 </Project>
