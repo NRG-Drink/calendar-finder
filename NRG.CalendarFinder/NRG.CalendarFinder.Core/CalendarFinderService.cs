@@ -35,7 +35,7 @@ public class CalendarFinderService(GraphServiceClient graph)
 		return output;
 	}
 
-	public async Task<User> FindUserOrThrowAsync(string userIdentifier)
+    private async Task<User> FindUserOrThrowAsync(string userIdentifier)
 	{
 		try
 		{
@@ -49,7 +49,7 @@ public class CalendarFinderService(GraphServiceClient graph)
 		}
 	}
 
-	public async Task<List<Calendar>> FindCalendarsOrThrowAsync(User user)
+    private async Task<List<Calendar>> FindCalendarsOrThrowAsync(User user)
 	{
 		try
 		{
