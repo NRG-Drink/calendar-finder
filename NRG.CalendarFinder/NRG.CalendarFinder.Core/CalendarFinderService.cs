@@ -1,24 +1,47 @@
-﻿using Microsoft.Graph;
+using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using Microsoft.Graph.Models.ODataErrors;
-using NRG.CalendarFinder.MsGraphFactories;
+using NRG.CalendarFinder.Core.Models;
+using NRG.CalendarFinder.Core.MsGraphFactories;
 
-namespace NRG.CalendarFinder;
+namespace NRG.CalendarFinder.Core;
 
-public class CalendarFinderService(IMsGraphClientFactory graphFactory)
+public class CalendarFinderService(GraphServiceClient graph)
 {
-	private readonly GraphServiceClient _graph = graphFactory.GetClient("GraphClient");
+	public async Task<OutputData> ProcessInputAsync(InputData input)
+	{
+		var output = new OutputData() { Input = input };
+		try
+		{
+			var user = await FindUserOrThrowAsync(input.UserIdentifier);
+			output = output.WithUser(user);
+			var calendars = await FindCalendarsOrThrowAsync(user);
+			output = output.WithCalendars(calendars);
+		}
+		catch (ODataError oex)
+		{
+			output = output.WithError(oex);
+		}
+		catch (Exception ex)
+		{
+			output = output.WithError(ex);
+		}
+		finally
+		{
+			await Console.Out.WriteLineAsync(
+				$"found: {output.Error is null,-5} - {input.UserIdentifier}");
+		}
+
+		return output;
+	}
 
 	public async Task<User> FindUserOrThrowAsync(string userIdentifier)
 	{
 		try
 		{
-			if (string.IsNullOrWhiteSpace(userIdentifier))
-			{
-				throw new ArgumentException($"User identifier is null or whitespace.");
-			}
-
-			return await TryFindUserOrThrowAsync(userIdentifier);
+			return string.IsNullOrWhiteSpace(userIdentifier)
+				? throw new ArgumentException($"User identifier is null or whitespace.")
+				: await TryFindUserOrThrowAsync(userIdentifier);
 		}
 		catch (Exception ex)
 		{
@@ -31,12 +54,9 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 		try
 		{
 			var isUserValid = user is not null && (user.Id is not null || user.UserPrincipalName is not null);
-			if (!isUserValid)
-			{
-				throw new ArgumentException($"User or User.Id or User.PrincipalName is null.");
-			}
-
-			return await TryFindCalendarsOrThrowAsync(user!);
+			return !isUserValid
+				? throw new ArgumentException($"User or User.Id or User.PrincipalName is null.")
+				: await TryFindCalendarsOrThrowAsync(user!);
 		}
 		catch (Exception ex)
 		{
@@ -71,7 +91,7 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 	{
 		try
 		{
-			return await _graph.Users[userIdentifier].GetAsync();
+			return await graph.Users[userIdentifier].GetAsync();
 		}
 		catch (ODataError)
 		{
@@ -81,7 +101,7 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 
 	private async Task<User?> UserStartsWith(string property, string value)
 	{
-		var users = await _graph.Users.GetAsync(e =>
+		var users = await graph.Users.GetAsync(e =>
 		{
 			e.QueryParameters.Filter = $"startsWith({property},'{value}')";
 		});
@@ -91,7 +111,7 @@ public class CalendarFinderService(IMsGraphClientFactory graphFactory)
 
 	private async Task<List<Calendar>> TryFindCalendarsOrThrowAsync(User user)
 	{
-		var response = await _graph
+		var response = await graph
 			.Users[user.Id ?? user.UserPrincipalName]
 			.Calendars
 			.GetAsync();

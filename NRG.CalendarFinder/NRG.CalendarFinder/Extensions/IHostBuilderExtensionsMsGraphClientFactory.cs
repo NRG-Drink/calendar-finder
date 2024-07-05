@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NRG.CalendarFinder.CertificateLoaders;
-using NRG.CalendarFinder.MsGraphFactories;
-using NRG.CalendarFinder.MsGraphFactories.ConfigReaders;
+using NRG.CalendarFinder.Core.CertificateLoaders;
+using NRG.CalendarFinder.Core.MsGraphFactories;
+using NRG.CalendarFinder.Core.MsGraphFactories.ConfigReaders;
 using System.Security.Cryptography.X509Certificates;
 
 namespace NRG.CalendarFinder.Extensions;

@@ -2,7 +2,7 @@
 using Microsoft.Graph.Models.ODataErrors;
 using System.Text.Json.Serialization;
 
-namespace NRG.CalendarFinder.Models;
+namespace NRG.CalendarFinder.Core.Models;
 
 public record OutputData
 {

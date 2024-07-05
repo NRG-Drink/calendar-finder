@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NRG.CalendarFinder.Core.Models;
 using NRG.CalendarFinder.Models;
 
 namespace NRG.CalendarFinder.Extensions;

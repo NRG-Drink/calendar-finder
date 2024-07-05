@@ -1,4 +1,4 @@
-﻿namespace NRG.CalendarFinder.MsGraphFactories.Models;
+﻿namespace NRG.CalendarFinder.Core.MsGraphFactories.Models;
 
 public record MsGraphCredentials
 {

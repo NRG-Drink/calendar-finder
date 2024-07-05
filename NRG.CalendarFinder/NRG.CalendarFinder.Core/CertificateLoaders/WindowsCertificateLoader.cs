@@ -1,12 +1,12 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿
+using System.Security.Cryptography.X509Certificates;
 
-namespace NRG.CalendarFinder.CertificateLoaders;
+namespace NRG.CalendarFinder.Core.CertificateLoaders;
 
 public class WindowsCertificateLoader : ICertificateLoader
 {
 	private readonly StoreName _storeName;
 	private readonly StoreLocation _storeLocation;
-
 
 	public WindowsCertificateLoader(
 		StoreName storeName = StoreName.My,
@@ -16,7 +16,6 @@ public class WindowsCertificateLoader : ICertificateLoader
 		_storeName = storeName;
 		_storeLocation = storeLocation;
 	}
-
 
 	public X509Certificate2 GetCertificate(string thumbprint)
 	{

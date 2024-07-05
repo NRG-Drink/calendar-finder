@@ -1,4 +1,6 @@
-﻿namespace NRG.CalendarFinder.Models;
+using NRG.CalendarFinder.Core.Models;
+
+namespace NRG.CalendarFinder.Models;
 
 public record ProcessData
 {

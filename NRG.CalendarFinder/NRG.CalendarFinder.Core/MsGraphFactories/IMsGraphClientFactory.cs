@@ -1,6 +1,6 @@
 ﻿using Microsoft.Graph;
 
-namespace NRG.CalendarFinder.MsGraphFactories;
+namespace NRG.CalendarFinder.Core.MsGraphFactories;
 
 public interface IMsGraphClientFactory
 {
