@@ -2,7 +2,7 @@
 using Microsoft.Graph.Models.ODataErrors;
 using System.Text.Json.Serialization;
 
-namespace NRG.CalendarFinder.Models;
+namespace NRG.CalendarFinder.Core.Models;
 
 public record OutputData
 {
@@ -15,10 +15,15 @@ public record OutputData
 	public string? Error { get; init; }
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 	public string? InnerError { get; init; }
+	[JsonIgnore]
+	public User? MsUser { get; init; }
+    [JsonIgnore] 
+	public List<Calendar>? MsCalendars { get; init; }
 
 	public OutputData WithUser(User user)
 		=> this with
 		{
+			MsUser = user,
 			User = new()
 			{
 				DisplayName = user.DisplayName,
@@ -35,6 +40,7 @@ public record OutputData
 			{
 				CalendarId = GetDefaultCalendarId(calendars)
 			},
+			MsCalendars = calendars,
 			Calendars = calendars
 				.Select(e => new MyCalendar()
 				{

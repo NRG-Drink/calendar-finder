@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Graph.Models.ODataErrors;
+using Microsoft.Extensions.Hosting;
+using NRG.CalendarFinder.Core;
+using NRG.CalendarFinder.Core.Models;
+using NRG.CalendarFinder.Core.MsGraphFactories;
 using NRG.CalendarFinder.Models;
 using System.Text.Json;
 
@@ -7,7 +9,7 @@ namespace NRG.CalendarFinder;
 
 public class CalendarFinderWorker(
 	IHost host,
-	CalendarFinderService finder,
+	IMsGraphClientFactory graphClientFactory,
 	ProcessData processData
 	)
 	: BackgroundService
@@ -16,7 +18,9 @@ public class CalendarFinderWorker(
 	{
 		await Console.Out.WriteLineAsync($"Start Process with {processData.Options}");
 
-		var tasks = processData.Inputs.Select(ProcessInputsAsync);
+		var graph = graphClientFactory.GetClient("GraphClient");
+		var finder = new CalendarFinderService(graph);
+		var tasks = processData.Inputs.Select(finder.ProcessInputAsync);
 		var processed = await Task.WhenAll(tasks);
 
 		var path = GetResultPath(processData.Options.FilePath);
@@ -28,33 +32,6 @@ public class CalendarFinderWorker(
 		}
 
 		await host.StopAsync(stoppingToken);
-	}
-
-	private async Task<OutputData> ProcessInputsAsync(InputData input)
-	{
-		var output = new OutputData() { Input = input };
-		try
-		{
-			var user = await finder.FindUserOrThrowAsync(input.UserIdentifier);
-			output = output.WithUser(user);
-			var calendars = await finder.FindCalendarsOrThrowAsync(user);
-			output = output.WithCalendars(calendars);
-		}
-		catch (ODataError oex)
-		{
-			output = output.WithError(oex);
-		}
-		catch (Exception ex)
-		{
-			output = output.WithError(ex);
-		}
-		finally
-		{
-			await Console.Out.WriteLineAsync(
-				$"found: {output.Error is null,-5} - {input.UserIdentifier}");
-		}
-
-		return output;
 	}
 
 	private static async Task WriteToFileAsync(string path, IEnumerable<OutputData> output)

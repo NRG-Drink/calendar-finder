@@ -1,4 +1,4 @@
-﻿namespace NRG.CalendarFinder.Models;
+﻿namespace NRG.CalendarFinder.Core.Models;
 
 public record InputData
 {

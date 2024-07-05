@@ -1,22 +1,14 @@
 ﻿using Azure.Identity;
 using Microsoft.Graph;
-using NRG.CalendarFinder.CertificateLoaders;
-using NRG.CalendarFinder.MsGraphFactories.Models;
+using NRG.CalendarFinder.Core.CertificateLoaders;
+using NRG.CalendarFinder.Core.MsGraphFactories.Models;
 
-namespace NRG.CalendarFinder.MsGraphFactories;
+namespace NRG.CalendarFinder.Core.MsGraphFactories;
 
-public class MsGraphClientFactory : IMsGraphClientFactory
+public class MsGraphClientFactory(ICertificateLoader certificateLoader) : IMsGraphClientFactory
 {
-	private readonly Dictionary<string, MsGraphCredentials> _credentialStore = new();
-	private readonly Dictionary<string, GraphServiceClient> _clientStore = new();
-	private readonly ICertificateLoader _certificateLoader;
-
-
-	public MsGraphClientFactory(ICertificateLoader certificateLoader)
-	{
-		_certificateLoader = certificateLoader;
-	}
-
+	private readonly Dictionary<string, MsGraphCredentials> _credentialStore = [];
+	private readonly Dictionary<string, GraphServiceClient> _clientStore = [];
 
 	public void AddCredential(MsGraphCredentials credential)
 	{
@@ -67,7 +59,7 @@ public class MsGraphClientFactory : IMsGraphClientFactory
 		MsGraphCredentials credentials
 		)
 	{
-		var certificate = _certificateLoader.GetCertificate(credentials.Thumbprint);
+		var certificate = certificateLoader.GetCertificate(credentials.Thumbprint);
 		var options = GetOptions();
 
 		return new ClientCertificateCredential(
@@ -78,9 +70,6 @@ public class MsGraphClientFactory : IMsGraphClientFactory
 			);
 	}
 
-	private TokenCredentialOptions GetOptions()
-		=> new TokenCredentialOptions
-		{
-			AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
-		};
+	private static TokenCredentialOptions GetOptions()
+		=> new() { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud };
 }

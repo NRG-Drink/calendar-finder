@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 
-namespace NRG.CalendarFinder.CertificateLoaders;
+namespace NRG.CalendarFinder.Core.CertificateLoaders;
 
 public interface ICertificateLoader
 {

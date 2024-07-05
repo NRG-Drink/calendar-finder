@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using NRG.CalendarFinder.MsGraphFactories.Models;
+using NRG.CalendarFinder.Core.MsGraphFactories.Models;
 
-namespace NRG.CalendarFinder.MsGraphFactories.ConfigReaders;
+namespace NRG.CalendarFinder.Core.MsGraphFactories.ConfigReaders;
 
 public class MsGraphHostConfigurationJsonReader(IConfiguration configuration)
 {
@@ -14,7 +14,6 @@ public class MsGraphHostConfigurationJsonReader(IConfiguration configuration)
 	private MsGraphCredentials ParseCredential(IConfigurationSection clientSection)
 		=> new()
 		{
-			//ClientName = clientSection.Key,
 			ClientName = "GraphClient",
 			TenantId = GetValue("TenantId", clientSection),
 			ClientId = GetValue("ClientId", clientSection),
@@ -22,15 +21,10 @@ public class MsGraphHostConfigurationJsonReader(IConfiguration configuration)
 			Scopes = GetValues("Scopes", clientSection),
 		};
 
-	private string GetValue(string key, IConfigurationSection section)
+	private static string GetValue(string key, IConfigurationSection section)
 		=> section.GetRequiredSection(key).Value
 			?? $"No value found for: {key}";
 
-	private string[] GetValues(string key, IConfigurationSection section)
-		=> section
-			.GetRequiredSection(key)
-			.GetChildren()
-			.Select(e => e.Value)
-			.OfType<string>() // filter string?
-			.ToArray();
+	private static string[] GetValues(string key, IConfigurationSection section)
+		=> section.GetRequiredSection(key).GetChildren().Select(e => e.Value).OfType<string>().ToArray();
 }

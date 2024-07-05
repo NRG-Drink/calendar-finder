@@ -5,7 +5,9 @@ VisualStudioVersion = 17.10.34902.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NRG.CalendarFinder", "NRG.CalendarFinder\NRG.CalendarFinder.csproj", "{569EF686-DA30-4EF6-AC88-465C3726DA01}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NRG.CalendarFinder.Tests", "NRG.CalendarFinder.Tests\NRG.CalendarFinder.Tests.csproj", "{35F5207A-C214-4C49-836C-C0F3D748CFDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NRG.CalendarFinder.Core.Tests", "NRG.CalendarFinder.Core.Tests\NRG.CalendarFinder.Core.Tests.csproj", "{35F5207A-C214-4C49-836C-C0F3D748CFDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NRG.CalendarFinder.Core", "NRG.CalendarFinder.Core\NRG.CalendarFinder.Core.csproj", "{EAA97ACF-732D-4320-BC57-6F4BD89B831B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{35F5207A-C214-4C49-836C-C0F3D748CFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35F5207A-C214-4C49-836C-C0F3D748CFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35F5207A-C214-4C49-836C-C0F3D748CFDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA97ACF-732D-4320-BC57-6F4BD89B831B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA97ACF-732D-4320-BC57-6F4BD89B831B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA97ACF-732D-4320-BC57-6F4BD89B831B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA97ACF-732D-4320-BC57-6F4BD89B831B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,9 @@
-﻿using CommandLine;
+using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NRG.CalendarFinder.Core;
 using NRG.CalendarFinder.Extensions;
 using NRG.CalendarFinder.Models;
 
@@ -10,11 +11,8 @@ namespace NRG.CalendarFinder;
 
 internal class Program
 {
-	static async Task Main(string[] args)
-	{
-		await Parser.Default.ParseArguments<Options>(args)
+	static async Task Main(string[] args) => await Parser.Default.ParseArguments<Options>(args)
 			.WithParsedAsync(RunHost);
-	}
 
 	private static async Task RunHost(Options options)
 	{
@@ -23,10 +21,7 @@ internal class Program
 		try
 		{
 			var host = Host.CreateDefaultBuilder()
-				.ConfigureAppConfiguration(builder =>
-				{
-					builder.AddJsonFile(options.FilePath);
-				})
+				.ConfigureAppConfiguration(builder => builder.AddJsonFile(options.FilePath))
 				.ConfigureServices((context, services) =>
 				{
 					// Services 
