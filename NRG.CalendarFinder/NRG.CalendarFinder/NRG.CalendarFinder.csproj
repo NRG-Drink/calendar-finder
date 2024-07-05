@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Title>Calendar Finder</Title>
-    <Version>0.3.1</Version>
+    <Version>0.3.2</Version>
     <Authors>Beat Zimmermann</Authors>
     <Description>Find all calendars of a user via ms-graph.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
