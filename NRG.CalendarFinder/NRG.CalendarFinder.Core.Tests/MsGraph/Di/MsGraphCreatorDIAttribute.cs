@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NRG.CalendarFinder.Core.Certificates;
 using NRG.CalendarFinder.Core.MsGraph;
 
-namespace NRG.CalendarFinder.Core.Tests.Certificates.DI;
+namespace NRG.CalendarFinder.Core.Tests.MsGraph.Di;
 
 public class MsGraphCreatorDIAttribute : DependencyInjectionDataSourceAttribute<IServiceScope>
 {

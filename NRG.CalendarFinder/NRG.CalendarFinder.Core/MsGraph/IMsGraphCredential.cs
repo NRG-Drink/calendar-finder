@@ -1,4 +1,4 @@
-﻿namespace NRG.CalendarFinder.Core.Models;
+﻿namespace NRG.CalendarFinder.Core.MsGraph;
 
 public interface IMsGraphCredential
 {

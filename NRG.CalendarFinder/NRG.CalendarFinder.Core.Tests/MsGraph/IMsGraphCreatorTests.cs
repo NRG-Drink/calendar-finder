@@ -1,8 +1,7 @@
 ﻿using Azure.Identity;
 using FluentAssertions;
-using NRG.CalendarFinder.Core.Models;
 using NRG.CalendarFinder.Core.MsGraph;
-using NRG.CalendarFinder.Core.Tests.Certificates.DI;
+using NRG.CalendarFinder.Core.Tests.MsGraph.Di;
 
 namespace NRG.CalendarFinder.Core.Tests.MsGraph;
 [Category("Local")]
@@ -12,13 +11,7 @@ public class IMsGraphCreatorTests(IMsGraphCreator creator)
 {
     public static IEnumerable<Func<IMsGraphCredential>> GraphCredentials()
     {
-        yield return () => new MsGraphCredentials()
-        {
-            TenantId = "123",
-            ClientId = "345",
-            Thumbprint = "B764B4104A1401BCEEA3986BDBCBF6F3290CC89D",
-            Scopes = []
-        };
+        yield return () => new MsGraphCredential("123", "345", "B764B4104A1401BCEEA3986BDBCBF6F3290CC89D", []);
     }
 
     [Test]

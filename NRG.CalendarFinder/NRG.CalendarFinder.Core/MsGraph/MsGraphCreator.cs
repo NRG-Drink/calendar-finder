@@ -1,13 +1,12 @@
 ﻿using Azure.Identity;
 using Microsoft.Graph;
 using NRG.CalendarFinder.Core.Certificates;
-using NRG.CalendarFinder.Core.Models;
 
 namespace NRG.CalendarFinder.Core.MsGraph;
 
 public class MsGraphCreator(
     ICertificateGet? get = null
-    ) 
+    )
     : IMsGraphCreator
 {
     private readonly ICertificateGet _loader = get ?? new WindowsCertificateHandler();
