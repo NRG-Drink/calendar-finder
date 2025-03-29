@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace NRG.CalendarFinder.Core.Tests.Certificates;
 [Category("Local")]
 [Category("Certificates")]
-[WindowsCertificateLoaderDI]
+[WindowsCertificateDI]
 public class CertificateTests(
     ICertificateCreate create,
     ICertificateGet get,
@@ -44,57 +44,26 @@ public class CertificateTests(
     }
 
     [Test]
+    [NotInParallel]
     [MatrixDataSource]
-    public void Create(
-        [MatrixMethod<CertificateTests>(nameof(CertificateData))] TestData e
-        )
-    {
-        var cert = create.CreateCertificate(e.FilePath, e.Password);
-
-        cert.FriendlyName.Should().Be(e.FileName);
-        cert.Thumbprint.Should().Be(e.Thumbprint);
-    }
-
-    [Test, DependsOn(nameof(Create))]
-    [MatrixDataSource]
-    public void Add(
+    public async Task Store( 
         [Matrix(StoreName.My, null)] StoreName? storeName,
         [Matrix(StoreLocation.CurrentUser, null)] StoreLocation? storeLocation,
         [MatrixMethod<CertificateTests>(nameof(CertificateData))] TestData e
         )
     {
         var cert = create.CreateCertificate(e.FilePath, e.Password);
+        await Assert.That(cert.Subject).IsEqualTo($"CN={e.FileName}");
+        await Assert.That(cert.Thumbprint).IsEqualTo(e.Thumbprint);
 
         add.AddCertificate(cert, storeName, storeLocation);
-    }
 
-    [Test, DependsOn(nameof(Add))]
-    [MatrixDataSource]
-    public void Get(
-        [Matrix(StoreName.My, null)] StoreName? storeName,
-        [Matrix(StoreLocation.CurrentUser, null)] StoreLocation? storeLocation,
-        [MatrixMethod<CertificateTests>(nameof(CertificateData))] TestData e
-        )
-    {
-        var cert = get.GetCertificate(e.Thumbprint, storeName, storeLocation);
-
-        cert.FriendlyName.Should().Be(e.FileName);
-        cert.Thumbprint.Should().Be(e.Thumbprint);
-    }
-
-    [Test, DependsOn(nameof(Get), ProceedOnFailure = true)]
-    [MatrixDataSource]
-    public void Remove(
-        [Matrix(StoreName.My, null)] StoreName? storeName,
-        [Matrix(StoreLocation.CurrentUser, null)] StoreLocation? storeLocation,
-        [MatrixMethod<CertificateTests>(nameof(CertificateData))] TestData e
-        )
-    {
-        var cert = get.GetCertificate(e.Thumbprint, storeName, storeLocation);
+        var getCert = get.GetCertificate(e.Thumbprint, storeName, storeLocation);
+        await Assert.That(getCert.Subject).IsEqualTo($"CN={e.FileName}");
+        await Assert.That(getCert.Thumbprint).IsEqualTo(e.Thumbprint);
 
         remove.RemoveCertificate(cert, storeName, storeLocation);
-        var act = () => get.GetCertificate(e.Thumbprint, storeName, storeLocation);
 
-        act.Should().ThrowExactly<ArgumentNullException>();
+        Assert.Throws(() => get.GetCertificate(e.Thumbprint, storeName, storeLocation));
     }
 }

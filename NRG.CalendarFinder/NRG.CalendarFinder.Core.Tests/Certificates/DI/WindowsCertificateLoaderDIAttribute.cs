@@ -3,7 +3,7 @@ using NRG.CalendarFinder.Core.Certificates;
 
 namespace NRG.CalendarFinder.Core.Tests.Certificates.DI;
 
-public class WindowsCertificateLoaderDIAttribute : DependencyInjectionDataSourceAttribute<IServiceScope>
+public class WindowsCertificateDIAttribute : DependencyInjectionDataSourceAttribute<IServiceScope>
 {
     private static readonly ServiceProvider _serviceProvider = CreateSharedServiceProvider();
 
