@@ -398,7 +398,20 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Custom
+.test-results
+.artifacts
+.publish
+
 appsettings.json
+appsettings.*.json
+logging.json
+logging.*.json
+secrets.json
+secrets.*.json
+
 calendar-finder-appsettings.json
 mydata.json
 launchSettings.json
+
+!test-cert*.pfx
+!ms-graph.pfx

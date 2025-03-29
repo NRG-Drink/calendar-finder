@@ -1,30 +1,28 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using NRG.CalendarFinder.Core.CertificateLoaders;
-using NRG.CalendarFinder.Core.MsGraphFactories;
-using NRG.CalendarFinder.Core.MsGraphFactories.ConfigReaders;
-using System.Security.Cryptography.X509Certificates;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.Hosting;
+//using NRG.CalendarFinder.Core.Certificates;
+//using System.Security.Cryptography.X509Certificates;
 
-namespace NRG.CalendarFinder.Extensions;
+//namespace NRG.CalendarFinder.Extensions;
 
-public static class IHostBuilderExtensionsMsGraphClientFactory
-{
-	public static IHostBuilder AddGraphClientsFromJson(this IHostBuilder builder)
-	{
-		builder.ConfigureServices((context, services) =>
-		{
-			var reader = new MsGraphHostConfigurationJsonReader(context.Configuration);
-			var credentials = reader.Read();
+//public static class IHostBuilderExtensionsMsGraphClientFactory
+//{
+//    public static IHostBuilder AddGraphClientsFromJson(this IHostBuilder builder)
+//    {
+//        builder.ConfigureServices((context, services) =>
+//        {
+//            var reader = new MsGraphHostConfigurationJsonReader(context.Configuration);
+//            var credentials = reader.Read();
 
-			var factory = new MsGraphClientFactory(GetCertificateLoader());
-			credentials.ToList().ForEach(factory.AddCredential);
+//            var factory = new MsGraphClientFactory(GetCertificateLoader());
+//            credentials.ToList().ForEach(factory.AddCredential);
 
-			services.AddSingleton<IMsGraphClientFactory>(factory);
-		});
+//            services.AddSingleton<IMsGraphClientFactory>(factory);
+//        });
 
-		return builder;
-	}
+//        return builder;
+//    }
 
-	private static WindowsCertificateLoader GetCertificateLoader()
-		=> new(StoreName.My, StoreLocation.CurrentUser);
-}
+//    private static Core.Certificates.CalendarFinder GetCertificateLoader()
+//        => new(StoreName.My, StoreLocation.CurrentUser);
+//}

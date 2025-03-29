@@ -8,7 +8,10 @@ namespace NRG.CalendarFinder.Core.Tests.CalendarFinders;
 [Category("External")]
 [Category("CalendarFinder")]
 [CalendarFinderDI]
-public class ICalendarFinderTests(ICalendarFinder calfi)
+public class ICalendarFinderTests(
+    AppSettings settings,
+    ICalendarFinder calfi
+    )
 {
     [Test]
     [Arguments("huck")]
@@ -49,6 +52,17 @@ public class ICalendarFinderTests(ICalendarFinder calfi)
     }
 
     [Test]
+    public async Task FindCalendarAppSetting()
+    {
+        foreach (var userIdentifier in settings.UserIdentifiers)
+        {
+            Console.WriteLine($"Try find '{userIdentifier}'");
+            await FindCalendar(userIdentifier);
+            Console.WriteLine();
+        }
+    }
+
+    [Test]
     [Arguments("6cc27698-f450-49aa-8910-1f64bad30f92")]
     [Arguments("chuck.norris@iseschool.ch")]
     [Arguments("chuck")]
@@ -58,7 +72,7 @@ public class ICalendarFinderTests(ICalendarFinder calfi)
         var foundResult = await calfi.FindCalendarAsync(userIdentifier);
         if (foundResult.Value is Exception ex)
         {
-            Assert.Fail(ex.Message);
+            Assert.Fail($"{userIdentifier} - {ex.Message}");
         }
 
         var found = await Assert.That(foundResult.Value).IsTypeOf<Found>().And.IsNotNull();
