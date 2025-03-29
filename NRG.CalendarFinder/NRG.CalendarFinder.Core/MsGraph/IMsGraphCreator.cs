@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graph;
+using NRG.CalendarFinder.Core.MsGraph.Models;
 
 namespace NRG.CalendarFinder.Core.MsGraph;
 public interface IMsGraphCreator

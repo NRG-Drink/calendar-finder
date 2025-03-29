@@ -1,9 +1,5 @@
-﻿using NRG.CalendarFinder.Core.MsGraph;
+﻿using NRG.CalendarFinder.Core.MsGraph.Models;
 
 namespace NRG.CalendarFinder.Core.Models;
 
-public record AppSettings
-{
-    public required MsGraphCredential MsGraphCredential { get; init; }
-    public string[] UserIdentifiers { get; init; } = [];
-}
+public record AppSettings(MsGraphCredential MsGraphCredential, string[] UserIdentifiers);

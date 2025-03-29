@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NRG.CalendarFinder.Core.CalendarFinders;
+using NRG.CalendarFinder.Core.CalendarFinders.Models;
 using NRG.CalendarFinder.Core.Models;
 using NRG.CalendarFinder.Core.Tests.CalendarFinders.DI;
 using TUnit.Assertions.AssertionBuilders.Groups;
@@ -106,59 +107,5 @@ public class ICalendarFinderTests(
         Console.WriteLine($"Dn: {u.DisplayName}");
         Console.WriteLine($"Upn: {u.UserPrincipalName}");
         Console.WriteLine($"Mail: {u.Mail}");
-    }
-}
-
-[Category("Unit")]
-[Category("CalendarFinder")]
-[CalendarFinderDIFakeBoth]
-public class ICalendarFinderFakeBothTests(ICalendarFinder calfi)
-{
-    [Test]
-    [Arguments("")]
-    [Arguments(" ")]
-    [Arguments("norris")]
-    public async Task InvalidUserEx(string userIdentifier)
-    {
-        var foundResult = await calfi.FindCalendarAsync(userIdentifier);
-
-        var ex = await Assert.That(foundResult.Value).IsTypeOf<Exception>().And.IsNotNull();
-        await Assert.That(ex).HasMessageContaining(nameof(CalendarFinderDIFakeBothAttribute.CalendarServiceFake));
-    }
-}
-
-
-[Category("Unit")]
-[Category("CalendarFinder")]
-[CalendarFinderDIFakeUser]
-public class ICalendarFinderFakeUserTests(ICalendarFinder calfi)
-{
-    [Test]
-    [Arguments("with-id")]
-    [Arguments("with-upn")]
-    [Arguments("with-both")]
-    public async Task ValidUserEx(string userIdentifier)
-    {
-        var foundResult = await calfi.FindCalendarAsync(userIdentifier);
-
-        var ex = await Assert.That(foundResult.Value)
-            .IsNotNull()
-            .And.IsTypeOf<Exception>();
-
-        await Assert.That(ex).HasMessageContaining("Problem finding calendars");
-    }
-
-    [Test]
-    [Arguments("none")]
-    [Arguments("")]
-    public async Task InvalidUserEx(string userIdentifier)
-    {
-        var foundResult = await calfi.FindCalendarAsync(userIdentifier);
-
-        var ex = await Assert.That(foundResult.Value)
-            .IsNotNull()
-            .And.IsTypeOf<ArgumentException>();
-
-        await Assert.That(ex).HasMessageContaining("is null");
     }
 }

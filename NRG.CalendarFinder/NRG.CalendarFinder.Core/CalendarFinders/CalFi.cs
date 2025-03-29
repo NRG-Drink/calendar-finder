@@ -1,10 +1,7 @@
-﻿using Microsoft.Graph.Models;
+﻿using NRG.CalendarFinder.Core.CalendarFinders.Models;
 using OneOf;
-using System.Collections.Immutable;
 
 namespace NRG.CalendarFinder.Core.CalendarFinders;
-
-public record Found(string UserIdentifier, User User, ImmutableArray<Calendar> Calendars);
 
 public class CalFi(
     IUserService userService,

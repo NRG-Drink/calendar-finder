@@ -1,6 +1,7 @@
 ﻿using Azure.Identity;
 using FluentAssertions;
 using NRG.CalendarFinder.Core.MsGraph;
+using NRG.CalendarFinder.Core.MsGraph.Models;
 using NRG.CalendarFinder.Core.Tests.MsGraph.Di;
 
 namespace NRG.CalendarFinder.Core.Tests.MsGraph;

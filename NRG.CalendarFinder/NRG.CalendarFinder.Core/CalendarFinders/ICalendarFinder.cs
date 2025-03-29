@@ -1,4 +1,5 @@
-﻿using OneOf;
+﻿using NRG.CalendarFinder.Core.CalendarFinders.Models;
+using OneOf;
 
 namespace NRG.CalendarFinder.Core.CalendarFinders;
 

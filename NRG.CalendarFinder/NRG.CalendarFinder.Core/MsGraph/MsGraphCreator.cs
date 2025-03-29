@@ -1,6 +1,7 @@
 ﻿using Azure.Identity;
 using Microsoft.Graph;
 using NRG.CalendarFinder.Core.Certificates;
+using NRG.CalendarFinder.Core.MsGraph.Models;
 
 namespace NRG.CalendarFinder.Core.MsGraph;
 

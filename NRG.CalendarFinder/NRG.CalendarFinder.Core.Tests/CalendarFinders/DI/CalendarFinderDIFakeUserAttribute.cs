@@ -53,7 +53,7 @@ public class CalendarFinderDIFakeUserAttribute : DependencyInjectionDataSourceAt
         public Task<OneOf<User, Exception>> FindUserAsync(string userIdentifier)
             => Task.FromResult<OneOf<User, Exception>>(GetFakeUser(userIdentifier));
 
-        private User GetFakeUser(string e)
+        private static User GetFakeUser(string e)
             => e switch
             {
                 "with-id" => new User() { Id = $"{Guid.NewGuid()}" },

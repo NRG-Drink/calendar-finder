@@ -8,7 +8,7 @@ public class CalendarService(GraphServiceClient graph) : ICalendarService
 {
     public async Task<OneOf<List<Calendar>, Exception>> FindCalendarAsync(User user)
     {
-        if (user?.Id is null && user?.UserPrincipalName is null)
+        if (user is null || (user.Id is null && user.UserPrincipalName is null))
         {
             return new ArgumentException($"User or User.Id or User.PrincipalName is null.");
         }
