@@ -1,0 +1,13 @@
+{
+  "MsGraphCredential": {
+    "Tenant": "iseschool2013.ch",
+    "TenantId": "5aa13122-1991-4907-ac56-a7dd3b1c666c",
+    "ClientId": "a334d883-aaf9-47ad-80bd-2370099218c0",
+    "Thumbprint": "C2C213EF4263118FDEEA5C94F6A9F5ACD6BE5F8F",
+    "Scopes": []
+  },
+  "UserIdentifiers": [
+    "chuck",
+    "beat"
+  ]
+}
