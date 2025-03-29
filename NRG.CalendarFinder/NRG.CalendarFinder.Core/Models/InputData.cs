@@ -2,5 +2,5 @@
 
 public record InputData
 {
-	public required string UserIdentifier { get; init; }
+    public required string UserIdentifier { get; init; }
 }
