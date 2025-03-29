@@ -16,7 +16,8 @@ public class WindowsCertificateHandler(
         string? password = null,
         X509KeyStorageFlags flags = X509KeyStorageFlags.UserKeySet | X509KeyStorageFlags.PersistKeySet
         )
-        => new(pfxFilePath, password, flags);
+        // Will not display cert.FriendlyName (empty string).
+        => X509CertificateLoader.LoadPkcs12FromFile(pfxFilePath, password, flags);
 
     public X509Certificate2 GetCertificate(
         string thumbprint,
