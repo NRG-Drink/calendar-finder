@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace NRG.CalendarFinder.Core.Tests.Certificates;
 [Category("Local")]
+[Category("Certificates")]
 [WindowsCertificateLoaderDI]
 public class CertificateTests(
     ICertificateCreate create,

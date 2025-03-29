@@ -1,0 +1,9 @@
+
+Name        : ms-graph
+Thumbprint  : B764B4104A1401BCEEA3986BDBCBF6F3290CC89D
+StartDate   : 29.03.2025 15:43:09
+EndDate     : 23.04.2066 16:53:06
+PublishDate : 29.03.2025 15:53:09
+Publisher   : DESKTOP-MDKJ5VQ
+Password    : wykJn5WaP9nU2APJ.EnnD$0C=4lOkG
+
