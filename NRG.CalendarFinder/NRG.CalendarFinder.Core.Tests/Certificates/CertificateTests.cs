@@ -46,7 +46,7 @@ public class CertificateTests(
     [Test]
     [NotInParallel]
     [MatrixDataSource]
-    public async Task Store( 
+    public async Task Store(
         [Matrix(StoreName.My, null)] StoreName? storeName,
         [Matrix(StoreLocation.CurrentUser, null)] StoreLocation? storeLocation,
         [MatrixMethod<CertificateTests>(nameof(CertificateData))] TestData e

@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Graph.Models;
 using NRG.CalendarFinder.Core.CalendarFinders;
-using NRG.CalendarFinder.Core.Extensions;
 using NRG.CalendarFinder.Core.Models;
 using NRG.CalendarFinder.Core.MsGraph;
 using OneOf;

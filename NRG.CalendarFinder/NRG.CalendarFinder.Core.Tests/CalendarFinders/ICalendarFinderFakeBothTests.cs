@@ -1,4 +1,5 @@
 ﻿using NRG.CalendarFinder.Core.CalendarFinders;
+using NRG.CalendarFinder.Core.CalendarFinders.Models;
 using NRG.CalendarFinder.Core.Tests.CalendarFinders.DI;
 
 namespace NRG.CalendarFinder.Core.Tests.CalendarFinders;
@@ -16,7 +17,8 @@ public class ICalendarFinderFakeBothTests(ICalendarFinder calfi)
     {
         var foundResult = await calfi.FindCalendarAsync(userIdentifier);
 
-        var ex = await Assert.That(foundResult.Value).IsTypeOf<Exception>().And.IsNotNull();
+        var fex = await Assert.That(foundResult.Value).IsTypeOf<FoundException>().And.IsNotNull();
+        var ex = await Assert.That(fex.Error).IsTypeOf<Exception>().And.IsNotNull();
         await Assert.That(ex).HasMessageContaining(nameof(CalendarFinderDIFakeBothAttribute.CalendarServiceFake));
     }
 }

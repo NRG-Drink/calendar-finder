@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using NRG.CalendarFinder.Core.CalendarFinders;
+﻿using NRG.CalendarFinder.Core.CalendarFinders;
 using NRG.CalendarFinder.Core.CalendarFinders.Models;
 using NRG.CalendarFinder.Core.Models;
 using NRG.CalendarFinder.Core.Tests.CalendarFinders.DI;
@@ -25,12 +24,13 @@ public class ICalendarFinderTests(
     public async Task NoUserEx(string userIdentifier)
     {
         var foundResult = await calfi.FindCalendarAsync(userIdentifier);
-        if (foundResult.Value is Found f)
+        if (foundResult.Value is FoundResult f)
         {
             Assert.Fail($"Found user: {f.User.DisplayName}, {f.User.UserPrincipalName}");
         }
 
-        var ex = await Assert.That(foundResult.Value).IsTypeOf<Exception>().And.IsNotNull();
+        var fex = await Assert.That(foundResult.Value).IsTypeOf<FoundException>().And.IsNotNull();
+        var ex = await Assert.That(fex.Error).IsTypeOf<Exception>().And.IsNotNull();
         await Assert.That(ex).HasMessageContaining("no user", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -40,12 +40,13 @@ public class ICalendarFinderTests(
     public async Task InvalidUserEx(string userIdentifier)
     {
         var foundResult = await calfi.FindCalendarAsync(userIdentifier);
-        if (foundResult.Value is Found f)
+        if (foundResult.Value is FoundResult f)
         {
             Assert.Fail($"Found user: {f.User.DisplayName}, {f.User.UserPrincipalName}");
         }
 
-        var ex = await Assert.That(foundResult.Value).IsTypeOf<ArgumentException>().And.IsNotNull();
+        var fex = await Assert.That(foundResult.Value).IsTypeOf<FoundException>().And.IsNotNull();
+        var ex = await Assert.That(fex.Error).IsTypeOf<ArgumentException>().And.IsNotNull();
         await Assert.That(ex)
             .HasMessageContaining("null", StringComparison.OrdinalIgnoreCase)
             .And.HasMessageContaining("empty", StringComparison.OrdinalIgnoreCase)
@@ -76,7 +77,7 @@ public class ICalendarFinderTests(
             Assert.Fail($"{userIdentifier} - {ex.Message}");
         }
 
-        var found = await Assert.That(foundResult.Value).IsTypeOf<Found>().And.IsNotNull();
+        var found = await Assert.That(foundResult.Value).IsTypeOf<FoundResult>().And.IsNotNull();
 
         await Assert.That(found.UserIdentifier).IsEqualTo(userIdentifier);
         var u = await Assert.That(found.User).IsNotNull();

@@ -13,6 +13,7 @@
     <PackageReference Include="AwesomeAssertions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageReference Include="TUnit" Version="0.19.24" />
+    <PackageReference Include="Verify.TUnit" Version="28.16.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="CalendarFinders\Data\" />
+    <Folder Include="MsGraph\Formatters\Data\" />
   </ItemGroup>
 
 </Project>

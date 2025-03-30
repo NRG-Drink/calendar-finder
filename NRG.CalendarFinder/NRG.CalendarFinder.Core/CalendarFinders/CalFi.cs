@@ -8,20 +8,30 @@ public class CalFi(
     ICalendarService calService
     ) : ICalendarFinder
 {
-    public async Task<OneOf<Found, Exception>> FindCalendarAsync(string userIdentifier)
+    public async Task<OneOf<FoundResult, FoundException>> FindCalendarAsync(string userIdentifier)
+    {
+        var result = await WorkAsync(userIdentifier);
+
+        await Console.Out.WriteLineAsync(
+                $"found: {result.Value is FoundResult,-5} - {userIdentifier}");
+
+        return result;
+    }
+
+    private async Task<OneOf<FoundResult, FoundException>> WorkAsync(string userIdentifier)
     {
         var userResult = await userService.FindUserAsync(userIdentifier);
         if (userResult.TryPickT1(out var userEx, out var user))
         {
-            return userEx;
+            return new FoundException(userIdentifier, userEx);
         }
 
         var calendarsResult = await calService.FindCalendarAsync(user);
         if (calendarsResult.TryPickT1(out var calendarsEx, out var calendars))
         {
-            return calendarsEx;
+            return new FoundException(userIdentifier, calendarsEx);
         }
 
-        return new Found(userIdentifier, user, [.. calendars]);
+        return new FoundResult(userIdentifier, user, [.. calendars]);
     }
 }

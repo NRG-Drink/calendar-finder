@@ -30,7 +30,7 @@ public class CalendarService(GraphServiceClient graph) : ICalendarService
             .Calendars
             .GetAsync();
 
-        return response?.Value 
+        return response?.Value
             ?? throw new Exception("No calendars could be found.");
     }
 }

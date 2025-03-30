@@ -1,4 +1,5 @@
 ﻿using NRG.CalendarFinder.Core.CalendarFinders;
+using NRG.CalendarFinder.Core.CalendarFinders.Models;
 using NRG.CalendarFinder.Core.Tests.CalendarFinders.DI;
 
 namespace NRG.CalendarFinder.Core.Tests.CalendarFinders;
@@ -16,11 +17,9 @@ public class ICalendarFinderFakeUserTests(ICalendarFinder calfi)
     {
         var foundResult = await calfi.FindCalendarAsync(userIdentifier);
 
-        var ex = await Assert.That(foundResult.Value)
-            .IsNotNull()
-            .And.IsTypeOf<Exception>();
-
-        await Assert.That(ex).HasMessageContaining("Problem finding calendars");
+        var fex = await Assert.That(foundResult.Value).IsTypeOf<FoundException>().And.IsNotNull();
+        var ex = await Assert.That(fex.Error).IsTypeOf<Exception>().And.IsNotNull();
+        await Assert.That(fex.Error).HasMessageContaining("Problem finding calendars");
     }
 
     [Test]
@@ -30,10 +29,8 @@ public class ICalendarFinderFakeUserTests(ICalendarFinder calfi)
     {
         var foundResult = await calfi.FindCalendarAsync(userIdentifier);
 
-        var ex = await Assert.That(foundResult.Value)
-            .IsNotNull()
-            .And.IsTypeOf<ArgumentException>();
-
+        var fex = await Assert.That(foundResult.Value).IsTypeOf<FoundException>().And.IsNotNull();
+        var ex = await Assert.That(fex.Error).IsTypeOf<ArgumentException>().And.IsNotNull();
         await Assert.That(ex).HasMessageContaining("is null");
     }
 }
