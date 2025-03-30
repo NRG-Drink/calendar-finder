@@ -42,6 +42,7 @@ reportgenerator ^
 	-targetdir:%reportDir% ^
 	-reporttypes:Html ^
 	-assemblyfilters:-*Test*;-Xunit*;-Argon*
+:: Argon = Verify namespace
 
 :: Generate link to report.
 echo start %reportHtml% > %testDir%/show-report.bat

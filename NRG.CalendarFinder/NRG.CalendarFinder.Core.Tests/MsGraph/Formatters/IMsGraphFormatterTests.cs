@@ -40,7 +40,7 @@ public class IMsGraphFormatterTests(IMsGraphFormatter formatter)
     public static IEnumerable<Func<(string, OneOf<FoundResult, FoundException>)>> FoundData()
     {
         yield return () => ("Normal1", new FoundResult(User1.DisplayName!, User1, [Calendar1, Calendar2]));
-        yield return () => ("Ex1",  new FoundException("Mr. Incognito", Error1));
+        yield return () => ("Ex1", new FoundException("Mr. Incognito", Error1));
     }
     #endregion
 
