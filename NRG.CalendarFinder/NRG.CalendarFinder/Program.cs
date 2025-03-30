@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NRG.CalendarFinder.Core.Extensions;
-using NRG.CalendarFinder.Core.MsGraph;
 using NRG.CalendarFinder.Models;
 
 namespace NRG.CalendarFinder;
@@ -12,7 +11,8 @@ namespace NRG.CalendarFinder;
 internal class Program
 {
     static async Task Main(string[] args)
-        => await Parser.Default.ParseArguments<Options>(args)
+        => await Parser.Default
+            .ParseArguments<Options>(args)
             .WithParsedAsync(RunHost);
 
     private static async Task RunHost(Options options)
@@ -28,9 +28,7 @@ internal class Program
                 .ConfigureServices((context, services) =>
                 {
                     // Services 
-                    services
-                        .AddSingleton(options)
-                        .AddSingleton<MsGraphFormatter>();
+                    services.AddSingleton(options);
 
                     // Workers
                     services.AddHostedService<CalendarFinderWorker>();

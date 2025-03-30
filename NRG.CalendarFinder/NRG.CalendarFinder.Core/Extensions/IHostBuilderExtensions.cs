@@ -20,6 +20,7 @@ public static class IHostBuilderExtensions
 
             services
                 .AddSingleton(appSettings)
+                .AddSingleton<IMsGraphFormatter, MsGraphFormatter>()
                 .AddSingleton<IUserService>(new UserService(graph))
                 .AddSingleton<ICalendarService>(new CalendarService(graph))
                 .AddSingleton<ICalendarFinder, CalFi>();

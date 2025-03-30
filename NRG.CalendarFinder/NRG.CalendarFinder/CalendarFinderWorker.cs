@@ -13,7 +13,7 @@ public class CalendarFinderWorker(
     Options options,
     AppSettings settings,
     ICalendarFinder calfi,
-    MsGraphFormatter formatter
+    IMsGraphFormatter formatter
     )
     : BackgroundService
 {
