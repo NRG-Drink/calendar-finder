@@ -1,0 +1,31 @@
+﻿{
+  "UserIdentifier": "Hello World!",
+  "User": {
+    "UserId": "Guid_1",
+    "DisplayName": "Hello World!",
+    "PrincipalName": "hello@world.com",
+    "Mail": "hello@wörld.com",
+    "DefaultCalendarId": "Guid_2",
+    "DefaultCalendarName": "Calendar"
+  },
+  "DefaultCalendar": {
+    "Id": "Guid_2",
+    "Name": "Calendar",
+    "Owner": "Hello World!",
+    "IsDefault": true
+  },
+  "Calendars": [
+    {
+      "Id": "Guid_2",
+      "Name": "Calendar",
+      "Owner": "Hello World!",
+      "IsDefault": true
+    },
+    {
+      "Id": "Guid_3",
+      "Name": "Holidays",
+      "Owner": "Hello World!",
+      "IsDefault": false
+    }
+  ]
+}

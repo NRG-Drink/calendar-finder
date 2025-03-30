@@ -4,7 +4,7 @@ using NRG.CalendarFinder.Core.MsGraph;
 using NRG.CalendarFinder.Core.MsGraph.Models;
 using NRG.CalendarFinder.Core.Tests.MsGraph.Di;
 
-namespace NRG.CalendarFinder.Core.Tests.MsGraph;
+namespace NRG.CalendarFinder.Core.Tests.MsGraph.IMsGraphCreators;
 [Category("Local")]
 [Category("IMsGraphCreator")]
 [MsGraphCreatorDI]
