@@ -64,8 +64,5 @@ public class UserService(GraphServiceClient graph) : IUserService
     }
 
     private static string GetMailNickname(string userIdentifier)
-        => userIdentifier
-            .Split("@")
-            .FirstOrDefault()
-            ?? userIdentifier;
+        => userIdentifier.Split("@")[0];
 }

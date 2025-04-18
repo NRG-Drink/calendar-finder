@@ -67,6 +67,7 @@ public class ICalendarFinderTests(
     [Test]
     [Arguments("6cc27698-f450-49aa-8910-1f64bad30f92")]
     [Arguments("chuck.norris@iseschool.ch")]
+    [Arguments("chuck.norris@provider.net")]
     [Arguments("chuck")]
     [Arguments("Chuck.Norris")]
     public async Task FindCalendar(string userIdentifier)

@@ -58,6 +58,7 @@ public class CalendarFinderDIFakeUserAttribute : DependencyInjectionDataSourceAt
                 "with-id" => new User() { Id = $"{Guid.NewGuid()}" },
                 "with-upn" => new User() { UserPrincipalName = "hello@world.com" },
                 "with-both" => new User() { Id = $"{Guid.NewGuid()}", UserPrincipalName = "hello@world.com" },
+                "null" => null!,
                 _ => new User()
             };
     }

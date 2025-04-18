@@ -19,10 +19,11 @@ public class ICalendarFinderFakeUserTests(ICalendarFinder calfi)
 
         var fex = await Assert.That(foundResult.Value).IsTypeOf<FoundException>().And.IsNotNull();
         var ex = await Assert.That(fex.Error).IsTypeOf<Exception>().And.IsNotNull();
-        await Assert.That(fex.Error).HasMessageContaining("Problem finding calendars");
+        await Assert.That(ex).HasMessageContaining("Problem finding calendars");
     }
 
     [Test]
+    [Arguments("null")]
     [Arguments("none")]
     [Arguments("")]
     public async Task InvalidUserEx(string userIdentifier)

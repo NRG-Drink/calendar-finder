@@ -52,12 +52,14 @@ public static class MsGraphFormatterTestData
 
     #region Errors
     public static Exception ErrorNull => new ArgumentException("'null' is no valid input.");
+    public static Exception ErrorInner => new("Something went wrong :(", ErrorNull);
     #endregion
 
     public static IEnumerable<Func<(string, OneOf<FoundResult, FoundException>)>> FoundData()
     {
-        yield return () => ("FoundException001", new FoundException(MrIncognito.DisplayName!, new($"{MrIncognito.DisplayName} not found.")));
-        yield return () => ("FoundException002", new FoundException(MrIncognito.DisplayName!, ErrorNull));
+        yield return () => ("FoundException001 Exception", new FoundException(MrIncognito.DisplayName!, new($"{MrIncognito.DisplayName} not found.")));
+        yield return () => ("FoundException002 ArgumentException", new FoundException(MrIncognito.DisplayName!, ErrorNull));
+        yield return () => ("FoundException003 inner exception", new FoundException(MrIncognito.DisplayName!, ErrorInner));
 
         yield return () => ("FoundResult001 multiple calendars", new FoundResult(User1.DisplayName!, User1, [Calendar1, Calendar2]));
         yield return () => ("FoundResult002 multiple default calendars", new FoundResult(User1.DisplayName!, User1, [Calendar1, Calendar1]));

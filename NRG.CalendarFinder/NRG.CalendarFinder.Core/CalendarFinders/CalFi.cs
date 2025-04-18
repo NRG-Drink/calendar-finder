@@ -10,7 +10,7 @@ public class CalFi(
 {
     public async Task<OneOf<FoundResult, FoundException>> FindCalendarAsync(string userIdentifier)
     {
-        var result = await WorkAsync(userIdentifier);
+        var result = await RunAsync(userIdentifier);
 
         await Console.Out.WriteLineAsync(
                 $"found: {result.Value is FoundResult,-5} - {userIdentifier}");
@@ -18,7 +18,7 @@ public class CalFi(
         return result;
     }
 
-    private async Task<OneOf<FoundResult, FoundException>> WorkAsync(string userIdentifier)
+    private async Task<OneOf<FoundResult, FoundException>> RunAsync(string userIdentifier)
     {
         var userResult = await userService.FindUserAsync(userIdentifier);
         if (userResult.TryPickT1(out var userEx, out var user))
