@@ -1,0 +1,17 @@
+﻿{
+  "UserIdentifier": "User Two",
+  "User": {
+    "UserId": "Guid_1",
+    "DisplayName": "User Two",
+    "PrincipalName": "user.two@provider.com",
+    "Mail": "hello@world.com"
+  },
+  "Calendars": [
+    {
+      "Id": "Guid_2",
+      "Name": "Holidays",
+      "Owner": "User Two",
+      "IsDefault": false
+    }
+  ]
+}

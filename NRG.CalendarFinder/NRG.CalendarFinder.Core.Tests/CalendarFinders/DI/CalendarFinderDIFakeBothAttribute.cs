@@ -50,12 +50,16 @@ public class CalendarFinderDIFakeBothAttribute : DependencyInjectionDataSourceAt
     public class UserServiceFake : IUserService
     {
         public Task<OneOf<User, Exception>> FindUserAsync(string userIdentifier)
-            => Task.FromResult<OneOf<User, Exception>>(new User());
+            => Task.FromResult<OneOf<User, Exception>>(
+                new User()
+            );
     }
 
     public class CalendarServiceFake : ICalendarService
     {
         public Task<OneOf<List<Calendar>, Exception>> FindCalendarAsync(User user)
-            => Task.FromResult<OneOf<List<Calendar>, Exception>>(new Exception($"Fake {nameof(CalendarServiceFake)} Exception"));
+            => Task.FromResult<OneOf<List<Calendar>, Exception>>(
+                new Exception($"Fake {nameof(CalendarServiceFake)} Exception")
+            );
     }
 }

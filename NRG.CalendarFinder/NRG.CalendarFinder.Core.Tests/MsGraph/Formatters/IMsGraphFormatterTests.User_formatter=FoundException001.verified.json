@@ -2,6 +2,6 @@
   "UserIdentifier": "Mr. Incognito",
   "Error": {
     "Type": "Exception",
-    "Message": "Hello from exception."
+    "Message": "Mr. Incognito not found."
   }
 }

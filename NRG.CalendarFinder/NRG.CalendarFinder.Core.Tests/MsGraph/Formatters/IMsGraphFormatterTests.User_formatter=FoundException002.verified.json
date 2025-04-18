@@ -1,0 +1,7 @@
+﻿{
+  "UserIdentifier": "Mr. Incognito",
+  "Error": {
+    "Type": "ArgumentException",
+    "Message": "'null' is no valid input."
+  }
+}

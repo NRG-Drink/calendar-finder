@@ -82,6 +82,7 @@ public class ICalendarFinderTests(
         await Assert.That(found.UserIdentifier).IsEqualTo(userIdentifier);
         var u = await Assert.That(found.User).IsNotNull();
 
+        // User must match with one or more of this properties (search).
         var id = await Assert.That(u.Id).IsNotNull();
         var gId = AssertionGroup.For(id)
             .WithAssertion(e => e.IsNotNull())

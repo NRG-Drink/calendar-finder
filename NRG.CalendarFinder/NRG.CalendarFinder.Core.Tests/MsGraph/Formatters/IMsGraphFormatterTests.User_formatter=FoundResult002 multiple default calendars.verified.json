@@ -1,0 +1,31 @@
+﻿{
+  "UserIdentifier": "User One",
+  "User": {
+    "UserId": "Guid_1",
+    "DisplayName": "User One",
+    "PrincipalName": "hello@world.com",
+    "Mail": "$äöü@umlauts.ch",
+    "DefaultCalendarId": "Guid_2",
+    "DefaultCalendarName": "Calendar"
+  },
+  "DefaultCalendar": {
+    "Id": "Guid_2",
+    "Name": "Calendar",
+    "Owner": "User One",
+    "IsDefault": true
+  },
+  "Calendars": [
+    {
+      "Id": "Guid_2",
+      "Name": "Calendar",
+      "Owner": "User One",
+      "IsDefault": true
+    },
+    {
+      "Id": "Guid_3",
+      "Name": "Calendar",
+      "Owner": "User One",
+      "IsDefault": true
+    }
+  ]
+}

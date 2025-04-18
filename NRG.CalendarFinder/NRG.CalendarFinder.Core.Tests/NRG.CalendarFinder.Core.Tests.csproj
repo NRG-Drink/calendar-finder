@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="CalendarFinders\Data\" />
-    <Folder Include="MsGraph\Formatters\Data\" />
   </ItemGroup>
 
 </Project>

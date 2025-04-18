@@ -1,30 +1,30 @@
 ﻿{
-  "UserIdentifier": "Hello World!",
+  "UserIdentifier": "User One",
   "User": {
     "UserId": "Guid_1",
-    "DisplayName": "Hello World!",
+    "DisplayName": "User One",
     "PrincipalName": "hello@world.com",
-    "Mail": "hello@wörld.com",
+    "Mail": "$äöü@umlauts.ch",
     "DefaultCalendarId": "Guid_2",
     "DefaultCalendarName": "Calendar"
   },
   "DefaultCalendar": {
     "Id": "Guid_2",
     "Name": "Calendar",
-    "Owner": "Hello World!",
+    "Owner": "User One",
     "IsDefault": true
   },
   "Calendars": [
     {
       "Id": "Guid_2",
       "Name": "Calendar",
-      "Owner": "Hello World!",
+      "Owner": "User One",
       "IsDefault": true
     },
     {
       "Id": "Guid_3",
       "Name": "Holidays",
-      "Owner": "Hello World!",
+      "Owner": "User Two",
       "IsDefault": false
     }
   ]
