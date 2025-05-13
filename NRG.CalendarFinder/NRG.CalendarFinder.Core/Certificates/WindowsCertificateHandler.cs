@@ -28,7 +28,7 @@ public class WindowsCertificateHandler(
             .FirstOrDefault()
             ?? throw new ArgumentNullException(
                 $"No certificate found for {thumbprint} in " +
-                $"store: {storeName}, location: {storeLocation}."
+                $"store: {storeName ?? defaultStoreName}, location: {storeLocation ?? defaultStoreLocation}."
             );
 
     public void AddCertificate(
